@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./assets/lib/jquery.js"></script>
+    <style>
+        div {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+
+        .bgc {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <button>开关灯</button>
+    <input type="text">
+
+    <script>
+
+        const ipt = document.querySelector('input');
+        let timer = null;
+        //防抖 只执行最后一次
+        // $('button').click(function () {
+        //     clearTimeout(timer);
+        //     timer = setTimeout(function () {
+        //         $('body').toggleClass('bgc');
+        //     }, 1000)
+        // });
+        //节流 一段时间内只执行一次
+        // let flag = true;
+        // $('button').click(function () {
+        //     if (flag) {
+        //         flag = false;
+        //         setTimeout(function () {
+        //             $('body').toggleClass('bgc');
+        //             flag = true;
+        //         }, 3000)
+        //     }
+        // });
+        function throttle1(fn, time) {
+            let flag = true;
+            return function () {
+                if (flag) {
+                    flag = false;
+
+                    setTimeout(function () {
+                        fn1()
+                        flag = true;
+                    }, time)
+                }
+            }
+        }
+        function fn1() {
+            $('body').toggleClass('bgc');
+        }
+        $('button').click(throttle1(fn, 2000));
+
+
+        function throttle(fn, time) {
+            let flag = false;
+            return function () {
+                if (flag) { return };
+                flag = true;
+
+                setTimeout(() => {
+                    fn.call(this);
+                    flag = true;
+                }, time);
+
+            };
+        };
+        function fn() {
+            console.log(this.value);
+        }
+        ipt.addEventListener('keyup', throttle(fn, 2000))
+    </script>
+</body>
+
+</html>

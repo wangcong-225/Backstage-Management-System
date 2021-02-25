@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text">
+    <script>
+        const ipt = document.querySelector('input');
+        // let timer = '';
+        // ipt.addEventListener('input', function () {
+        //     clearTimeout(timer);
+        //     timer = setTimeout(() => {
+        //         console.log(this.value);
+        //     }, 1000)
+        // })
+
+        function debounce(fn, time) {
+            let timer = '';
+            return function () {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    // console.log(this);
+                    fn.call(this);
+                }, 1000)
+            }
+        };
+        function fn() {
+            console.log(this);
+            console.log(this.value);
+        };
+        const fn1 = debounce(fn, 1000);
+        ipt.addEventListener('input', debounce(fn, 1000));
+        ipt.addEventListener('input', function () {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                // console.log(this);
+                fn.call(this);
+            }, 1000)
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>
